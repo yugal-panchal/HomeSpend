@@ -1,5 +1,5 @@
-import 'package:expense_manager/domain/entities/expense.dart';
-import 'package:expense_manager/domain/repositories/expense_repository.dart';
+import 'package:home_spend/domain/entities/expense.dart';
+import 'package:home_spend/domain/repositories/expense_repository.dart';
 
 class AddExpenseUseCase {
   final ExpenseRepository expenseRepository;
