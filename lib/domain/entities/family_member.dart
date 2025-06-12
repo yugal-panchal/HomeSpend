@@ -5,14 +5,14 @@ class FamilyMember {
   String? code;
 
   FamilyMember(this.id, this.name, this.role) {
-    if (role.id != "1" && code == null) {
-      throw ArgumentError("Please enter the code provided by your head of the family");
+    if (role.id != 1 && code == null) {
+      throw ArgumentError("Please enter the code provided by the head of your family");
     }
   }
 }
 
 class FamilyMemberRole {
-  String id;
+  int id;
   String title;
 
   FamilyMemberRole(this.id, this.title);
