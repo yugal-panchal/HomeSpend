@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:home_spend/presentation/bindings/login_bindings.dart';
+import 'package:home_spend/presentation/bindings/auth_bindings.dart';
 import 'package:home_spend/routes/app_pages.dart';
 import 'package:home_spend/routes/app_routes.dart';
 
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      initialBinding: LoginBindings(),
+      initialBinding: AuthBindings(),
       initialRoute: AppRoutes.login,
       getPages: AppPages.pages,
     );

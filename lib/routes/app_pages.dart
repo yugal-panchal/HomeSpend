@@ -1,5 +1,5 @@
 import 'package:get/route_manager.dart';
-import 'package:home_spend/presentation/views/login.dart';
+import 'package:home_spend/presentation/views/auth/login.dart';
 import 'package:home_spend/routes/app_routes.dart';
 
 class AppPages {

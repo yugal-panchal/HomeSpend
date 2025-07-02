@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:home_spend/domain/entities/family_member.dart';
-import 'package:home_spend/domain/use_cases/login/user_login.dart';
+import 'package:home_spend/domain/use_cases/auth/user_auth.dart';
 import 'package:home_spend/utils/toast.dart';
 
-class LoginController extends GetxController {
-  final UserLogin userLoginUseCase = Get.find<UserLogin>();
+class AuthController extends GetxController {
+  final UserAuth userAuthUseCases = Get.find<UserAuth>();
   TextEditingController nameController = TextEditingController();
   TextEditingController codeController = TextEditingController();
   final List<FamilyMemberRole> roles = [
@@ -38,7 +38,7 @@ class LoginController extends GetxController {
 
     FamilyMember familyMember = FamilyMember("",nameController.text, selectedRole.value, code: codeController.text);
 
-    userLoginUseCase.call(familyMember);    
+    userAuthUseCases.signup(familyMember);    
   }
 
   @override
