@@ -37,7 +37,7 @@ class LoginScreen extends GetView<LoginController> {
               options: controller.roles.map((role) => role.title).toList(),
               selectedValue: controller.selectedRole.value.title,
             ),
-            if (controller.selectedRole.value.id == 1)
+            if (controller.selectedRole.value.id != 0 && controller.selectedRole.value.id != 1)
               CustomTextfield(
                 title: "Code",
                 controller: controller.codeController,
