@@ -1,35 +1,32 @@
-class ExpenseModel {
+class TopupModel {
   final String id;
   final String familyId;
   final String budgetId;
-  final String memberUserId;
-  final String description;
+  final String headUserId;
   final double amount;
-  final int expenseDate;
+  final int topupDate;
   final int createdAt;
   final int updatedAt;
 
-  ExpenseModel({
+  TopupModel({
     required this.id,
     required this.familyId,
     required this.budgetId,
-    required this.memberUserId,
-    required this.description,
+    required this.headUserId,
     required this.amount,
-    required this.expenseDate,
+    required this.topupDate,
     required this.createdAt,
     required this.updatedAt,
   });
 
-  factory ExpenseModel.fromMap(Map<String, dynamic> map) {
-    return ExpenseModel(
+  factory TopupModel.fromMap(Map<String, dynamic> map) {
+    return TopupModel(
       id: map['id'],
       familyId: map['family_id'],
       budgetId: map['budget_id'],
-      memberUserId: map['member_user_id'],
-      description: map['description'],
+      headUserId: map['head_user_id'],
       amount: (map['amount'] as num).toDouble(),
-      expenseDate: map['expense_date'],
+      topupDate: map['topup_date'],
       createdAt: map['created_at'],
       updatedAt: map['updated_at'],
     );
@@ -40,10 +37,9 @@ class ExpenseModel {
       'id': id,
       'family_id': familyId,
       'budget_id': budgetId,
-      'member_user_id': memberUserId,
-      'description': description,
+      'head_user_id': headUserId,
       'amount': amount,
-      'expense_date': expenseDate,
+      'topup_date': topupDate,
       'created_at': createdAt,
       'updated_at': updatedAt,
     };
