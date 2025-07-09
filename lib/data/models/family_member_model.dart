@@ -3,22 +3,23 @@ import 'package:home_spend/domain/entities/family_member.dart';
 class FamilyMemberModel {
   final String id;
   final String name;
-  final String code;
+  final String familyId;
   final int roleId;
   final String roleTitle;
 
   FamilyMemberModel({
     required this.id,
     required this.name,
-    required this.code,
+    required this.familyId,
     required this.roleId,
     required this.roleTitle,
   });
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'name': name,
-      'code': code,
+      'familyId': familyId,
       'roleId': roleId,
       'roleTitle': roleTitle,
     };
@@ -28,9 +29,25 @@ class FamilyMemberModel {
     return FamilyMemberModel(
       id: id,
       name: json['name'],
-      code: json['code'],
+      familyId: json['familyId'],
       roleId: json['roleId'],
       roleTitle: json['roleTitle'],
+    );
+  }
+
+  FamilyMemberModel copyWith({
+    String? id,
+    String? name,
+    String? familyId,
+    int? roleId,
+    String? roleTitle,
+  }) {
+    return FamilyMemberModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      familyId: familyId ?? this.familyId,
+      roleId: roleId ?? this.roleId,
+      roleTitle: roleTitle ?? this.roleTitle,
     );
   }
 
@@ -39,7 +56,7 @@ class FamilyMemberModel {
     return FamilyMemberModel(
       id: user.id,
       name: user.name,
-      code: user.code ?? "",
+      familyId: "",
       roleId: user.role.id,
       roleTitle: user.role.title,
     );
@@ -47,11 +64,6 @@ class FamilyMemberModel {
 
   /// Convert model → entity
   FamilyMember toEntity() {
-    return FamilyMember(
-      id,
-      name,
-      FamilyMemberRole(roleId, roleTitle),
-      code: code,
-    );
+    return FamilyMember(id, name, FamilyMemberRole(roleId, roleTitle));
   }
 }

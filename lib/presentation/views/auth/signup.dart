@@ -14,7 +14,7 @@ class Signup extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(title: "Login Screen"),
+      appBar: CustomAppbar(title: "Signup Screen"),
       body: Obx(() {
         return Column(
           children: [
