@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:home_spend/domain/entities/family_member.dart';
 import 'package:home_spend/domain/use_cases/auth/user_auth.dart';
+import 'package:home_spend/routes/app_routes.dart';
 import 'package:home_spend/utils/toast.dart';
 
 class AuthController extends GetxController {
@@ -11,6 +12,8 @@ class AuthController extends GetxController {
 
   TextEditingController nameController = TextEditingController();
   TextEditingController codeController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+
   Rx<FamilyMemberRole> selectedRole = Rx<FamilyMemberRole>(
     FamilyMemberRole(0, ""),
   );
@@ -37,11 +40,11 @@ class AuthController extends GetxController {
       onAutoVerify: (credential) async {
         await userAuthUseCases.signInWithCredential(credential);
         isLoading.value = false;
-        Get.offAllNamed('/home');
+        Get.offAllNamed(AppRoutes.home);
       },
       onFailed: (e) {
         isLoading.value = false;
-        Get.snackbar('Error', e.message ?? 'Verification failed');
+        CustomToast.showErrorToast(e.message ?? 'Verification failed');
       },
       onTimeout: (verificationId) {
         _verificationId = verificationId;
@@ -90,15 +93,29 @@ class AuthController extends GetxController {
       CustomToast.showWarningToast("Please select a role");
       return;
     }
+    if(phoneNumberController.text == "") {
+      CustomToast.showWarningToast("Please enter your number");
+      return;
+    }
 
     FamilyMember familyMember = FamilyMember(
       "",
       nameController.text,
       selectedRole.value,
+      phoneNumberController.text,
       code: codeController.text,
     );
 
     userAuthUseCases.signup(familyMember);
+  }
+
+  void login() {
+    if (phoneNumberController.text == "") {
+      CustomToast.showWarningToast("Please enter you number");
+      return;
+    }
+
+    userAuthUseCases.login(phoneNumberController.text);
   }
 
   @override

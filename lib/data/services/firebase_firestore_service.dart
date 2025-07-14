@@ -20,15 +20,13 @@ class FirebaseFirestoreService {
     FamilyModel familyData,
   ) async {
     if (userData.roleId == 1) {
-
       familyData.copyWith(id: await addFamily(familyData));
       userData.copyWith(familyId: familyData.id);
       await addUser(userData);
-
     } else {
       String? familyId = await _findFamilyByCode(familyData.code);
 
-      if(familyId == null) { 
+      if (familyId == null) {
         return ResponseModel(false, "No family found with this code");
       }
 
@@ -61,6 +59,18 @@ class FirebaseFirestoreService {
     final userWithId = user.copyWith(id: docRef.id); // assign ID to model
 
     await docRef.set(userWithId.toJson());
+  }
+
+  Future<bool> isUserRegistered(String number) async {
+    final querySnapshot = await _firestore
+        .collection(FirestoreConstants.usersKey)
+        .where("phone_number", isEqualTo: number)
+        .limit(1)
+        .get();
+    if (querySnapshot.docs.isNotEmpty) {
+      return true;
+    }
+    return false;
   }
 
   /// Add a family document to /families/{familyId}

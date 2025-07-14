@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:home_spend/data/models/family_member_model.dart';
 import 'package:home_spend/data/models/family_model.dart';
 import 'package:home_spend/data/models/response_model.dart';
@@ -6,19 +7,26 @@ import 'package:home_spend/data/services/firebase_auth_service.dart';
 import 'package:home_spend/data/services/firebase_firestore_service.dart';
 import 'package:home_spend/domain/entities/family_member.dart';
 import 'package:home_spend/domain/repositories/auth_repository.dart';
+import 'package:home_spend/presentation/controllers/auth_controller.dart';
 import 'package:home_spend/utils/helper_functions.dart';
+import 'package:home_spend/utils/toast.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
-
-    final FirebaseAuthService _authService;
-    final FirebaseFirestoreService _firestoreService; 
+  final FirebaseAuthService _authService;
+  final FirebaseFirestoreService _firestoreService;
 
   AuthRepositoryImpl(this._authService, this._firestoreService);
-  
+
   @override
-  Future<FamilyMember> familiMemberLogin() {
-    // TODO: implement familiMemberLogin
-    throw UnimplementedError();
+  Future<void> familyMemberLogin(String number) async {
+    bool isUserRegistered = await _firestoreService.isUserRegistered(number);
+    if (isUserRegistered) {
+      Get.find<AuthController>().sendOtp(number);
+    } else {
+      CustomToast.showErrorToast(
+        "Phone number is not registered. Please signup!",
+      );
+    }
   }
 
   @override
@@ -39,11 +47,11 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<void> verifyOtp({
+  Future<bool> verifyOtp({
     required String verificationId,
     required String smsCode,
   }) async {
-    await _authService.signInWithOtp(
+    return await _authService.signInWithOtp(
       verificationId: verificationId,
       smsCode: smsCode,
     );
@@ -61,6 +69,7 @@ class AuthRepositoryImpl extends AuthRepository {
   }) async {
     try {
       print("User Data => $userData");
+
       FamilyModel familyModel = FamilyModel(
         id: "",
         name: userData.roleId == 1 ? "${userData.name}'s Family" : "",
@@ -82,6 +91,16 @@ class AuthRepositoryImpl extends AuthRepository {
     } catch (e) {
       print("Error while signing up: $e");
     }
-    return FamilyMember("0", "name", FamilyMemberRole(1, "title"));
+    return FamilyMember(
+      userData.id,
+      userData.name,
+      FamilyMemberRole(userData.roleId, userData.roleTitle),
+      userData.phoneNumber,
+    );
+  }
+
+  @override
+  Future<bool> isUserRegistered(String number) async {
+    return await _firestoreService.isUserRegistered(number);
   }
 }

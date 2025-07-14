@@ -16,7 +16,6 @@ class LoginScreen extends GetView<AuthController> {
     return Scaffold(
       appBar: CustomAppbar(title: "Login Screen"),
       body: Obx(() {
-        print("Controller val ${controller.selectedRole.value.id}");
         return Column(
           children: [
             Text(
@@ -27,21 +26,10 @@ class LoginScreen extends GetView<AuthController> {
             Text("Login", style: boldStyle.copyWith(fontSize: 16)),
             SizedBox(height: Dimensions.paddingSizeExtraLarge),
             CustomTextfield(
-              title: "Name",
-              controller: controller.nameController,
+              title: "Phone number",
+              controller: controller.phoneNumberController,
             ),
             SizedBox(height: Dimensions.paddingSizeDefault),
-            CustomDropdown(
-              title: "Role",
-              onSelect: controller.updateRoleSelection,
-              options: controller.roles.map((role) => role.title).toList(),
-              selectedValue: controller.selectedRole.value.title,
-            ),
-            if (controller.selectedRole.value.id != 0 && controller.selectedRole.value.id != 1)
-              CustomTextfield(
-                title: "Code",
-                controller: controller.codeController,
-              ),
             CustomButton("Login", controller.signup),
           ],
         );
