@@ -6,9 +6,9 @@ import 'package:home_spend/presentation/controllers/splash_controller.dart';
 class AppBindings extends Bindings {
   @override
   void dependencies() {
-    Get.put(() => FirebaseAuthService());
-    Get.put(() => FirebaseFirestoreService());
+    Get.put(FirebaseAuthService());
+    Get.put(FirebaseFirestoreService());
 
-    Get.lazyPut(() => SplashController(Get.find()));
+    Get.put(SplashController(Get.find()));
   }
 }

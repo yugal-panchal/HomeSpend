@@ -6,6 +6,7 @@ import 'package:home_spend/domain/entities/family_member.dart';
 import 'package:home_spend/domain/repositories/auth_repository.dart';
 import 'package:home_spend/presentation/controllers/auth_controller.dart';
 import 'package:home_spend/routes/app_routes.dart';
+import 'package:home_spend/utils/helper_functions.dart';
 import 'package:home_spend/utils/toast.dart';
 
 class UserAuth {
@@ -22,14 +23,14 @@ class UserAuth {
     bool isValid = CountryUtils.validatePhoneNumber(familyMember.number, "+91");
     if (isValid) {
       tempUserData = FamilyMemberModel.fromEntity(familyMember);
-      code = code;
+      this.code = code;
       userRegistered = await authRepository.isUserRegistered(
         tempUserData.phoneNumber,
       );
       if (userRegistered == true) {
         CustomToast.showWarningToast("User already registered. Please login!");
       } else {
-        Get.find<AuthController>().sendOtp(tempUserData.phoneNumber);
+        Get.find<AuthController>().sendOtp("+91${tempUserData.phoneNumber}");
         Get.toNamed(AppRoutes.otpVerifyScreen);
       }
     } else {
@@ -62,11 +63,13 @@ class UserAuth {
       smsCode: smsCode,
     );
     if(isVerified) {
+      CustomToast.showSuccessToast("OTP verified successfully");
       if(tempUserData == FamilyMemberModel.emptyObject()) {
         authRepository.familyMemberLogin(phoneNumber!);
       } else {
         await authRepository.familyMemberSignup(tempUserData, code: code);
       }
+      Get.offAllNamed(AppRoutes.home);
     }
   }
 

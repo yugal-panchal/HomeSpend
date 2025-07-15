@@ -1,6 +1,7 @@
 import 'package:get/route_manager.dart';
 import 'package:home_spend/presentation/bindings/auth_bindings.dart';
 import 'package:home_spend/presentation/views/auth/login.dart';
+import 'package:home_spend/presentation/views/auth/otp_verification.dart';
 import 'package:home_spend/presentation/views/auth/signup.dart';
 import 'package:home_spend/presentation/views/home.dart';
 import 'package:home_spend/presentation/views/splash_screen.dart';
@@ -20,5 +21,6 @@ class AppPages {
       binding: AuthBindings(),
     ),
     GetPage(name: AppRoutes.home, page: () => HomeScreen()),
+    GetPage(name: AppRoutes.otpVerifyScreen, page: () => OtpVerification()),
   ];
 }

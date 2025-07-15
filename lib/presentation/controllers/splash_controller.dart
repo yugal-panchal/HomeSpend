@@ -10,12 +10,20 @@ class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    print("Initializing the splash controller");
+  }
+
+  @override
+  void onReady() {
     checkLoginStatus();
+    super.onReady();
   }
 
   void checkLoginStatus() async {
+    print("Checkin the login status");
     await Future.delayed(Duration(seconds: 1));
     final isLogedIn = _authService.isLogedIn();
+    print("Is logged in => $isLogedIn");
 
     if (isLogedIn) {
       Get.offAllNamed(AppRoutes.home);

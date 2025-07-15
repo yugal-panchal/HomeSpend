@@ -4,10 +4,11 @@ abstract class HelperFunctions {
   static String generateRandomCode(int length) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     final rand = Random.secure();
-
-    return List.generate(
+    String val = List.generate(
       length,
-      (index) => chars[rand.nextInt(chars.length)],
+          (index) => chars[rand.nextInt(chars.length)],
     ).join();
+    print("Auto generated code is $val");
+    return val;
   }
 }

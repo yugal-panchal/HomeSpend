@@ -5,6 +5,7 @@ import 'package:home_spend/presentation/widgets/custom_appbar.dart';
 import 'package:home_spend/presentation/widgets/custom_button.dart';
 import 'package:home_spend/presentation/widgets/custom_dropdown.dart';
 import 'package:home_spend/presentation/widgets/custom_textfield.dart';
+import 'package:home_spend/routes/app_routes.dart';
 import 'package:home_spend/utils/dimensions.dart';
 import 'package:home_spend/utils/styles.dart';
 
@@ -29,6 +30,11 @@ class Signup extends GetView<AuthController> {
               title: "Name",
               controller: controller.nameController,
             ),
+            SizedBox(height: Dimensions.paddingSizeExtraLarge),
+            CustomTextfield(
+              title: "Phone Number",
+              controller: controller.phoneNumberController,
+            ),
             SizedBox(height: Dimensions.paddingSizeDefault),
             CustomDropdown(
               title: "Role",
@@ -36,12 +42,23 @@ class Signup extends GetView<AuthController> {
               options: controller.roles.map((role) => role.title).toList(),
               selectedValue: controller.selectedRole.value.title,
             ),
-            if (controller.selectedRole.value.id != 0 && controller.selectedRole.value.id != 1)
+            if (controller.selectedRole.value.id != 0 &&
+                controller.selectedRole.value.id != 1)
               CustomTextfield(
                 title: "Code",
                 controller: controller.codeController,
               ),
-            CustomButton("Login", controller.signup),
+            CustomButton("Signup", controller.signup),
+            SizedBox(height: Dimensions.paddingSizeDefault),
+            Row(
+              children: [
+                Text("Already have account?"),
+                SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                CustomButton("Login", () {
+                  Get.offNamed(AppRoutes.signup);
+                }),
+              ],
+            ),
           ],
         );
       }),

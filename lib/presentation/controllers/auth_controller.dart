@@ -66,7 +66,7 @@ class AuthController extends GetxController {
         smsCode: otp,
       );
       isLoading.value = false;
-      Get.offAllNamed('/home');
+      // Get.offAllNamed('/home');
     } catch (e) {
       isLoading.value = false;
       Get.snackbar("Error", "Invalid OTP. Please try again.");

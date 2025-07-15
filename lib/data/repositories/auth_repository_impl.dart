@@ -77,7 +77,7 @@ class AuthRepositoryImpl extends AuthRepository {
         createdAt: 0,
         updatedAt: 0,
       );
-      if (code != null) {
+      if (code != null && code != "") {
         familyModel.copyWith(code: code);
       } else {
         String code = HelperFunctions.generateRandomCode(6);

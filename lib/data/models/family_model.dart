@@ -1,9 +1,9 @@
 class FamilyModel {
-  final String id;
-  final String name;
-  final String code;
-  final int createdAt;
-  final int updatedAt;
+  String id;
+  String name;
+  String code;
+  int createdAt;
+  int updatedAt;
 
   FamilyModel({
     required this.id,
@@ -33,19 +33,17 @@ class FamilyModel {
     };
   }
 
-  FamilyModel copyWith({
+  copyWith({
     String? id,
     String? name,
     int? createdAt,
     int? updatedAt,
     String? code,
   }) {
-    return FamilyModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      code: code ?? this.code,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-    );
+    this.id = id ?? this.id;
+    this.code = code ?? this.code;
+    this.name = name ?? this.name;
+    this.createdAt = createdAt ?? this.createdAt;
+    this.updatedAt = updatedAt ?? this.updatedAt;
   }
 }

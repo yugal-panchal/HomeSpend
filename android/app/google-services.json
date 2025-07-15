@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:80018368313:android:43ffe0bc14b5741e0d6ae8",
         "android_client_info": {
-          "package_name": "com.example.expense_manager"
+          "package_name": "com.example.home_spend"
         }
       },
       "oauth_client": [],
