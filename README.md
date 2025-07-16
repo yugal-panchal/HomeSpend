@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 💰 FamBudget – Family Expense Manager
 
 FamBudget is a clean and efficient **family budget management app** built using **Flutter** and the **MVVM architecture**, powered by **GetX** for state management, dependency injection, and routing.
@@ -94,3 +95,21 @@ This project is open source and available under the [MIT License](LICENSE).
 ---
 
 > _Built with ❤️ using Flutter and GetX_
+=======
+# home_spend
+
+A new Flutter project.
+
+## Getting Started
+
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
+>>>>>>> master
