@@ -19,21 +19,26 @@ class FirebaseFirestoreService {
     FamilyMemberModel userData,
     FamilyModel familyData,
   ) async {
-    if (userData.roleId == 1) {
-      familyData.copyWith(id: await addFamily(familyData));
-      userData.copyWith(familyId: familyData.id);
-      await addUser(userData);
-    } else {
-      String? familyId = await _findFamilyByCode(familyData.code);
+    try {
+      if (userData.roleId == 1) {
+        familyData.copyWith(id: await addFamily(familyData));
+        userData.copyWith(familyId: familyData.id);
+        await addUser(userData);
+      } else {
+        String? familyId = await _findFamilyByCode(familyData.code);
 
-      if (familyId == null) {
-        return ResponseModel(false, "No family found with this code");
+        if (familyId == null) {
+          return ResponseModel(false, "No family found with this code");
+        }
+
+        userData.copyWith(familyId: familyId);
+        await addUser(userData);
       }
-
-      userData.copyWith(familyId: familyId);
-      await addUser(userData);
+      return ResponseModel(true, "Welcome to the family 😊");
+    } catch (e) {
+      print("Error saving data $e");
+      return ResponseModel(false, "Error");
     }
-    return ResponseModel(true, "Welcome to the family 😊");
   }
 
   Future<String?> _findFamilyByCode(String code) async {
@@ -78,9 +83,9 @@ class FirebaseFirestoreService {
     final docRef = _firestore
         .collection(FirestoreConstants.familiesKey)
         .doc(); // auto-generate ID
-    final familyWithId = family.copyWith(id: docRef.id); // assign ID to model
+    family.copyWith(id: docRef.id); // assign ID to model
 
-    await docRef.set(familyWithId.toMap());
+    await docRef.set(family.toMap());
 
     return docRef.id;
   }
