@@ -6,7 +6,6 @@ import 'package:home_spend/domain/entities/family_member.dart';
 import 'package:home_spend/domain/repositories/auth_repository.dart';
 import 'package:home_spend/presentation/controllers/auth_controller.dart';
 import 'package:home_spend/routes/app_routes.dart';
-import 'package:home_spend/utils/helper_functions.dart';
 import 'package:home_spend/utils/toast.dart';
 
 class UserAuth {
@@ -62,14 +61,23 @@ class UserAuth {
       verificationId: verificationId,
       smsCode: smsCode,
     );
-    if(isVerified) {
+    if (isVerified) {
       CustomToast.showSuccessToast("OTP verified successfully");
-      if(tempUserData == FamilyMemberModel.emptyObject()) {
-        authRepository.familyMemberLogin(phoneNumber!);
+      if (tempUserData == FamilyMemberModel.emptyObject()) {
+        await authRepository.familyMemberLogin(phoneNumber!);
+        Get.offAllNamed(AppRoutes.home);
       } else {
-        await authRepository.familyMemberSignup(tempUserData, code: code);
+        FamilyMember user = await authRepository.familyMemberSignup(
+          tempUserData,
+          code: code,
+        );
+        if (user.id != "") {
+          Get.offAllNamed(AppRoutes.home);
+        } else {
+          CustomToast.showErrorToast("Error while signing up");
+          Get.offAllNamed(AppRoutes.signup);
+        }
       }
-      Get.offAllNamed(AppRoutes.home);
     }
   }
 
@@ -81,7 +89,8 @@ class UserAuth {
     bool isValid = CountryUtils.validatePhoneNumber(number, "+91");
     if (isValid) {
       phoneNumber = number;
-      Get.find<AuthController>().sendOtp(number);
+      Get.find<AuthController>().sendOtp("+91$number");
+      Get.toNamed(AppRoutes.otpVerifyScreen);
     } else {
       CustomToast.showErrorToast("Please enter a valid number");
     }

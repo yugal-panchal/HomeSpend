@@ -9,8 +9,10 @@ import 'package:home_spend/utils/firestore_constants.dart';
 
 class FirebaseFirestoreService {
   FirebaseFirestoreService._privateConstructor();
+
   static final FirebaseFirestoreService _instance =
       FirebaseFirestoreService._privateConstructor();
+
   factory FirebaseFirestoreService() => _instance;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -23,7 +25,9 @@ class FirebaseFirestoreService {
       if (userData.roleId == 1) {
         familyData.copyWith(id: await addFamily(familyData));
         userData.copyWith(familyId: familyData.id);
-        await addUser(userData);
+        if (await addUser(userData)) {
+          return ResponseModel(true, "Welcome to the family 😊");
+        }
       } else {
         String? familyId = await _findFamilyByCode(familyData.code);
 
@@ -32,9 +36,11 @@ class FirebaseFirestoreService {
         }
 
         userData.copyWith(familyId: familyId);
-        await addUser(userData);
+        if (await addUser(userData)) {
+          return ResponseModel(true, "Welcome to the family 😊");
+        }
       }
-      return ResponseModel(true, "Welcome to the family 😊");
+      return ResponseModel(false, "Error");
     } catch (e) {
       print("Error saving data $e");
       return ResponseModel(false, "Error");
@@ -57,25 +63,36 @@ class FirebaseFirestoreService {
   }
 
   ///Add a user in users collection /users/{userId}
-  Future<void> addUser(FamilyMemberModel user) async {
-    final docRef = _firestore
-        .collection(FirestoreConstants.usersKey)
-        .doc(); // auto-generate ID
-    final userWithId = user.copyWith(id: docRef.id); // assign ID to model
+  Future<bool> addUser(FamilyMemberModel user) async {
+    try {
+      final docRef = _firestore
+          .collection(FirestoreConstants.usersKey)
+          .doc(); // auto-generate ID
+      user.copyWith(id: docRef.id); // assign ID to model
 
-    await docRef.set(userWithId.toJson());
+      await docRef.set(user.toJson());
+      return true;
+    } catch (e) {
+      print("Error saving user data $e");
+    }
+    return false;
   }
 
   Future<bool> isUserRegistered(String number) async {
-    final querySnapshot = await _firestore
-        .collection(FirestoreConstants.usersKey)
-        .where("phone_number", isEqualTo: number)
-        .limit(1)
-        .get();
-    if (querySnapshot.docs.isNotEmpty) {
-      return true;
+    try {
+      final querySnapshot = await _firestore
+          .collection(FirestoreConstants.usersKey)
+          .where("phone_number", isEqualTo: number)
+          .limit(1)
+          .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print("Error checking id user is registered $e");
+      return false;
     }
-    return false;
   }
 
   /// Add a family document to /families/{familyId}

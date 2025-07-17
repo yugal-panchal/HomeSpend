@@ -1,12 +1,12 @@
 import 'package:home_spend/domain/entities/family_member.dart';
 
 class FamilyMemberModel {
-  final String id;
-  final String name;
-  final String familyId;
-  final int roleId;
-  final String roleTitle;
-  final String phoneNumber;
+  String id;
+  String name;
+  String familyId;
+  int roleId;
+  String roleTitle;
+  String phoneNumber;
 
   FamilyMemberModel({
     required this.id,
@@ -72,7 +72,7 @@ class FamilyMemberModel {
       roleTitle.hashCode ^
       phoneNumber.hashCode;
 
-  FamilyMemberModel copyWith({
+  copyWith({
     String? id,
     String? name,
     String? familyId,
@@ -80,14 +80,12 @@ class FamilyMemberModel {
     String? roleTitle,
     String? phoneNumber,
   }) {
-    return FamilyMemberModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      familyId: familyId ?? this.familyId,
-      roleId: roleId ?? this.roleId,
-      roleTitle: roleTitle ?? this.roleTitle,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-    );
+    this.id = id ?? this.id;
+    this.name = name ?? this.name;
+    this.familyId = familyId ?? this.familyId;
+    this.roleId = roleId ?? this.roleId;
+    this.roleTitle = roleTitle ?? this.roleTitle;
+    this.phoneNumber = phoneNumber ?? this.phoneNumber;
   }
 
   /// Convert entity → model

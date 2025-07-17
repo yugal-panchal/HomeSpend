@@ -1,31 +1,25 @@
 import "package:flutter/material.dart";
-import "package:fluttertoast/fluttertoast.dart";
+import "package:get/get.dart";
 
 abstract class CustomToast {
   static showSuccessToast(String msg) {
-    Fluttertoast.showToast(
-      msg: msg,
+    Get.snackbar("Success", msg, colorText: Colors.white,
       backgroundColor: Colors.green,
-      toastLength: Toast.LENGTH_SHORT,
-      textColor: Colors.white,
-    );
+      snackPosition: SnackPosition.BOTTOM,
+      duration: Duration(seconds: 1),);
   }
 
   static showWarningToast(String msg) {
-    Fluttertoast.showToast(
-      msg: msg,
+    Get.snackbar("Warning", msg, colorText: Colors.white,
       backgroundColor: Colors.yellow,
-      toastLength: Toast.LENGTH_SHORT,
-      textColor: Colors.black,
-    );
+      snackPosition: SnackPosition.BOTTOM,
+      duration: Duration(seconds: 1),);
   }
 
   static showErrorToast(String msg) {
-    Fluttertoast.showToast(
-      msg: msg,
+    Get.snackbar("Error", msg, colorText: Colors.white,
       backgroundColor: Colors.red,
-      toastLength: Toast.LENGTH_SHORT,
-      textColor: Colors.white,
-    );
+      snackPosition: SnackPosition.BOTTOM,
+      duration: Duration(seconds: 1),);
   }
 }

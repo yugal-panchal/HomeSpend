@@ -18,14 +18,15 @@ class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl(this._authService, this._firestoreService);
 
   @override
-  Future<void> familyMemberLogin(String number) async {
+  Future<ResponseModel> familyMemberLogin(String number) async {
     bool isUserRegistered = await _firestoreService.isUserRegistered(number);
     if (isUserRegistered) {
-      Get.find<AuthController>().sendOtp(number);
+      return ResponseModel(true, "User is logged in");
     } else {
       CustomToast.showErrorToast(
         "Phone number is not registered. Please signup!",
       );
+      return ResponseModel(false, "Unable to log in User");
     }
   }
 
@@ -87,7 +88,12 @@ class AuthRepositoryImpl extends AuthRepository {
         userData,
         familyModel,
       );
-      print("Doc Path ${responseModel.toMap()}");
+      if (responseModel.success) {
+        CustomToast.showSuccessToast(responseModel.message);
+      } else {
+        CustomToast.showErrorToast(responseModel.message);
+        return FamilyMember("", "", FamilyMemberRole(0, ""), "");
+      }
     } catch (e) {
       print("Error while signing up: $e");
     }
